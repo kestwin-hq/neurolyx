@@ -226,9 +226,9 @@ const PRODUCTS = [
     img: '/shots/hire.jpg',
   },
   {
-    name: 'Kestwin apps',
+    name: 'Kestwin desktop',
     status: 'Live',
-    text: 'A desktop app for Mac and Windows, and an Android app.',
+    text: 'A desktop app for Mac and Windows, for practice and proctored interviews.',
     href: 'https://kestwin.com/download',
     link: 'Download',
     icon: Desktop,
