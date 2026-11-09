@@ -15,12 +15,11 @@ import {
   IdentificationCard,
   MapPin,
   Microphone,
-  Phone,
   ShieldCheck,
   Translate,
   UserFocus,
 } from '@phosphor-icons/react'
-import { COMPANY, PEOPLE, mapsHref, telHref } from './company'
+import { COMPANY, PEOPLE, mapsHref } from './company'
 import { useActiveSection, useReveals } from './hooks'
 
 const LINKS = [
@@ -74,10 +73,6 @@ function Nav() {
           ))}
         </nav>
         <div className="top__actions">
-          <a href={telHref(COMPANY.phone)} className="top__call" aria-label={`Call ${COMPANY.phone}`}>
-            <Phone size={16} weight="bold" />
-            <span className="tabular">{COMPANY.phone}</span>
-          </a>
           <a href="#contact" className="btn btn--primary btn--sm">
             Contact us
           </a>
@@ -99,8 +94,8 @@ function Nav() {
             {l.label} <CaretRight size={18} />
           </a>
         ))}
-        <a href={telHref(COMPANY.phone)} className="top__menu-call">
-          <Phone size={18} weight="bold" /> <span className="tabular">{COMPANY.phone}</span>
+        <a href={`mailto:${COMPANY.email}`} className="top__menu-call">
+          <EnvelopeSimple size={18} weight="bold" /> {COMPANY.email}
         </a>
       </nav>
     </header>
@@ -154,12 +149,12 @@ function Hero() {
             <a href="#products" className="btn btn--primary">
               See our products <ArrowRight size={18} weight="bold" />
             </a>
-            <a href={telHref(COMPANY.phone)} className="btn btn--ghost">
-              <Phone size={18} weight="bold" /> <span className="tabular">{COMPANY.phone}</span>
+            <a href="#company" className="btn btn--ghost">
+              <Buildings size={18} weight="bold" /> Company details
             </a>
           </div>
           <p className="hero__trust">
-            <ShieldCheck size={18} weight="bold" /> Private limited company, registered in India
+            <ShieldCheck size={18} weight="bold" /> Registered in India · CIN <span className="tabular">{COMPANY.cin}</span>
           </p>
           <dl className="hero__stats">
             {STATS.map((x) => (
@@ -349,7 +344,6 @@ function Company() {
     ...(COMPANY.cin ? ([['CIN', <span className="tabular">{COMPANY.cin}</span>]] as [string, React.ReactNode][]) : []),
     ['Type', 'Private limited company, registered in India'],
     ['Registered office', COMPANY.address.join(', ')],
-    ['Phone', <a href={telHref(COMPANY.phone)}>{COMPANY.phone}</a>],
     ['Email', <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>],
     ['Website', COMPANY.website],
     ['Brand', 'Kestwin (kestwin.com)'],
@@ -416,13 +410,6 @@ function Contact() {
             </span>
             <span className="caption-3 muted">Email</span>
             <span className="title-3">{COMPANY.email}</span>
-          </a>
-          <a className="contact__card" href={telHref(COMPANY.phone)}>
-            <span className="benefit__icon">
-              <Phone size={24} />
-            </span>
-            <span className="caption-3 muted">Phone</span>
-            <span className="title-3 tabular">{COMPANY.phone}</span>
           </a>
           <a className="contact__card" href={mapsHref} target="_blank" rel="noopener">
             <span className="benefit__icon">
