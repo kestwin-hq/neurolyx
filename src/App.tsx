@@ -6,6 +6,8 @@ import {
   ArrowRight,
   Target,
   CaretRight,
+  Check,
+  Copy,
   List,
   LockSimple,
   X,
@@ -331,36 +333,76 @@ function Approach() {
   )
 }
 
+function CopyCin() {
+  const [done, setDone] = useState(false)
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(COMPANY.cin)
+      setDone(true)
+      window.setTimeout(() => setDone(false), 1600)
+    } catch {
+      /* clipboard blocked: the number is still on screen to select */
+    }
+  }
+  return (
+    <button type="button" className="copy caption-4" onClick={copy} aria-label="Copy CIN">
+      {done ? <Check size={14} weight="bold" /> : <Copy size={14} />}
+      {done ? 'Copied' : 'Copy'}
+    </button>
+  )
+}
+
+const KEY_FACTS = [
+  { n: '2026', l: 'Founded' },
+  { n: '2', l: 'Live products' },
+  { n: 'Telangana', l: 'India' },
+]
+
 function Company() {
   const rows: [string, React.ReactNode][] = [
     ['Legal name', COMPANY.legalName],
-    ...(COMPANY.cin ? ([['CIN', <span className="tabular">{COMPANY.cin}</span>]] as [string, React.ReactNode][]) : []),
-    ['Type', 'Private limited company, registered in India'],
+    [
+      'CIN',
+      <span className="facts__cin">
+        <span className="tabular">{COMPANY.cin}</span>
+        <CopyCin />
+      </span>,
+    ],
+    ['Type', 'Private limited company'],
     ['Registered office', COMPANY.address.join(', ')],
     ['Email', <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>],
-    ['Website', COMPANY.website],
     ['Products', 'Kestwin, Kestwin Hire'],
   ]
   return (
     <section className="section" id="company">
       <div className="wrap company">
-        <div className="reveal">
+        <div className="company__left reveal">
           <p className="eyebrow caption-3">Company</p>
-          <h2 className="heading-2">About {COMPANY.shortName}</h2>
+          <h2 className="heading-2">Who we are</h2>
           <p className="body-3 muted company__text">
             {COMPANY.legalName} is a software company based in Telangana, India. We design, build and run our own
             products, end to end. Kestwin, our interview and hiring platform, is the first of them.
           </p>
-          <h3 className="title-2 people__title">Leadership</h3>
+          <dl className="keyfacts">
+            {KEY_FACTS.map((f) => (
+              <div key={f.l}>
+                <dt>{f.l}</dt>
+                <dd className="tabular">{f.n}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="caption-3 people__title">Leadership</p>
           <ul className="people">
             {PEOPLE.map((p) => (
               <li key={p.name} className="person">
-                <span className="person__avatar title-3" aria-hidden="true">
+                <span className="person__avatar" aria-hidden="true">
                   {p.initials}
                 </span>
                 <span>
-                  <span className="title-3 person__name">{p.name}</span>
-                  <span className="body-6 muted">{p.role}</span>
+                  <span className="card-title person__name">{p.name}</span>
+                  <span className="body-6 muted">
+                    {p.role}, {COMPANY.shortName}
+                  </span>
                 </span>
               </li>
             ))}
@@ -368,8 +410,13 @@ function Company() {
         </div>
         <div className="facts reveal">
           <div className="facts__head">
-            <IdentificationCard size={22} />
-            <h3 className="title-2">Company details</h3>
+            <span className="benefit__icon facts__icon">
+              <IdentificationCard size={22} weight="duotone" />
+            </span>
+            <span>
+              <h3 className="card-title">Company details</h3>
+              <span className="caption-2 muted">Registered with the Ministry of Corporate Affairs</span>
+            </span>
           </div>
           <dl>
             {rows.map(([k, v]) => (
