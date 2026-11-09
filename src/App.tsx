@@ -19,7 +19,8 @@ import {
   MapPin,
   ShieldCheck,
 } from '@phosphor-icons/react'
-import { COMPANY, PEOPLE, mapsHref } from './company'
+import { COMPANY, PEOPLE } from './company'
+import { ContactForm } from './ContactForm'
 import { useActiveSection, useReveals } from './hooks'
 
 const LINKS = [
@@ -435,35 +436,33 @@ function Company() {
 function Contact() {
   return (
     <section className="section section--tint" id="contact">
-      <div className="wrap">
-        <div className="section__head reveal">
+      <div className="wrap contact">
+        <div className="contact__left reveal">
           <p className="eyebrow caption-3">Contact</p>
           <h2 className="heading-2">Talk to us</h2>
           <p className="body-3 muted contact__sub">
-            Questions about Kestwin, partnerships, or using Kestwin at your company or college.
+            Questions, partnerships or using our products at your company or college. Send us a message and we will
+            reply by email.
           </p>
+          <dl className="contact__info">
+            <div>
+              <dt className="caption-3">
+                <EnvelopeSimple size={16} weight="bold" /> Email
+              </dt>
+              <dd className="body-5">
+                <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+              </dd>
+            </div>
+            <div>
+              <dt className="caption-3">
+                <MapPin size={16} weight="bold" /> Registered office
+              </dt>
+              <dd className="body-6">{COMPANY.address.join(', ')}</dd>
+            </div>
+          </dl>
         </div>
-        <div className="contact reveal">
-          <a className="contact__card" href={`mailto:${COMPANY.email}`}>
-            <span className="benefit__icon">
-              <EnvelopeSimple size={24} />
-            </span>
-            <span className="caption-3 muted">Email</span>
-            <span className="title-3">{COMPANY.email}</span>
-          </a>
-          <a className="contact__card" href={mapsHref} target="_blank" rel="noopener">
-            <span className="benefit__icon">
-              <MapPin size={24} />
-            </span>
-            <span className="caption-3 muted">Registered office</span>
-            <span className="title-4">
-              {COMPANY.address.map((l) => (
-                <span key={l} className="block">
-                  {l}
-                </span>
-              ))}
-            </span>
-          </a>
+        <div className="contact__card reveal">
+          <ContactForm />
         </div>
       </div>
     </section>

@@ -10,7 +10,3 @@ export const COMPANY = {
 }
 
 export const PEOPLE = [{ name: 'Swetha Dondeti', role: 'Director', initials: 'SD' }]
-
-export const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  'SBR Meadows, Indresham, Patancheru, Telangana 502319',
-)}`
