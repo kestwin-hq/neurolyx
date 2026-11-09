@@ -3,6 +3,7 @@ import {
   ArrowRight,
   CaretRight,
   List,
+  LockSimple,
   X,
   ArrowUpRight,
   Buildings,
@@ -104,9 +105,9 @@ function Nav() {
 
 // the hero picture cycles through real product screens, like the chapters of the EdPlus v2 film
 const SLIDES = [
-  { tab: 'Practise', img: '/shots/kestwin.jpg', title: 'AI mock interviews', text: 'Practise out loud with an AI interviewer on kestwin.com.' },
-  { tab: 'Resume', img: '/shots/resume.jpg', title: 'Resume builder', text: 'Templates and an ATS check, so a resume gets read.' },
-  { tab: 'Hire', img: '/shots/hire.jpg', title: 'Kestwin Hire', text: 'Live AI interviews for companies and colleges.' },
+  { url: 'kestwin.com', img: '/shots/kestwin.jpg', title: 'AI mock interviews', text: 'Practise out loud with an AI interviewer' },
+  { url: 'kestwin.com/templates', img: '/shots/resume.jpg', title: 'Resume builder', text: 'Templates and an ATS check' },
+  { url: 'hire.kestwin.com', img: '/shots/hire.jpg', title: 'Kestwin Hire', text: 'AI interviews for companies and colleges' },
 ]
 const SLIDE_MS = 6000
 
@@ -142,8 +143,8 @@ function Hero() {
             <em>people get hired.</em>
           </h1>
           <p className="hero__sub">
-            {COMPANY.legalName} makes Kestwin: AI mock interviews, resume tools and live AI interviews for job seekers,
-            companies and colleges.
+            We make Kestwin, the AI platform for interview practice, resumes and hiring. Built for job seekers,
+            companies and colleges across India.
           </p>
           <div className="hero__ctas">
             <a href="#products" className="btn btn--primary">
@@ -166,36 +167,39 @@ function Hero() {
           </dl>
         </div>
         <div className="hero__view" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-          <div className="view">
-            <div className="view__frame">
+          <div className="window">
+            <div className="window__bar" aria-hidden="true">
+              <span className="window__dots">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="window__url">
+                <LockSimple size={12} weight="bold" />
+                <span key={i}>{s.url}</span>
+              </span>
+            </div>
+            <div className="window__screen">
               {SLIDES.map((x, n) => (
                 <img
                   key={x.img}
                   src={x.img}
-                  alt={n === i ? `${x.title} on Kestwin` : ''}
-                  className={`view__img ${n === i ? 'is-on' : ''}`}
+                  alt={n === i ? `${x.title} on ${x.url}` : ''}
+                  className={`window__img ${n === i ? 'is-on' : ''}`}
                   loading={n === 0 ? 'eager' : 'lazy'}
                 />
               ))}
             </div>
-            <div className="view__caption" aria-live="polite">
-              <span className="view__step tabular">
-                0{i + 1} / 0{SLIDES.length}
-              </span>
-              <span className="view__text" key={i}>
-                <strong>{s.title}</strong>
-                <span>{s.text}</span>
-              </span>
-            </div>
           </div>
-          <ul className="view-rail" style={{ ['--slide' as string]: `${SLIDE_MS}ms` }}>
+          <ul className="tabs" style={{ ['--slide' as string]: `${SLIDE_MS}ms` }}>
             {SLIDES.map((x, n) => (
-              <li key={x.tab}>
+              <li key={x.url}>
                 <button type="button" className={n === i ? 'is-on' : ''} aria-pressed={n === i} onClick={() => setI(n)}>
-                  <span className="view-rail__bar">
-                    <span key={`${i}-${paused}`} style={paused ? { animation: 'none', transform: 'scaleX(1)' } : undefined} />
+                  <span className="tabs__bar">
+                    <span key={`${i}-${paused}`} className={paused ? 'is-paused' : ''} />
                   </span>
-                  {x.tab}
+                  <span className="tabs__title">{x.title}</span>
+                  <span className="tabs__text">{x.text}</span>
                 </button>
               </li>
             ))}
