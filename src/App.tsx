@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import {
+  AndroidLogo,
   ArrowRight,
+  ChartBar,
+  FileText,
+  Target,
   CaretRight,
   List,
   LockSimple,
@@ -8,7 +12,6 @@ import {
   ArrowUpRight,
   Buildings,
   ChatsCircle,
-  CheckCircle,
   Desktop,
   EnvelopeSimple,
   Exam,
@@ -210,72 +213,143 @@ function Hero() {
   )
 }
 
+// a product screen in the same browser window as the hero
+function Window({ url, img, alt }: { url: string; img: string; alt: string }) {
+  return (
+    <div className="window">
+      <div className="window__bar" aria-hidden="true">
+        <span className="window__dots">
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className="window__url">
+          <LockSimple size={12} weight="bold" />
+          <span>{url}</span>
+        </span>
+      </div>
+      <div className="window__screen">
+        <img src={img} alt={alt} className="window__img is-on" loading="lazy" />
+      </div>
+    </div>
+  )
+}
+
 const PRODUCTS = [
   {
     name: 'Kestwin',
     for: 'For job seekers',
+    lead: 'Get ready for your next interview, tonight.',
+    text: 'Pick the company and the role, see the questions they ask, then practise out loud with an AI interviewer that listens and replies.',
     url: 'https://kestwin.com',
     host: 'kestwin.com',
     img: '/shots/kestwin.jpg',
-    alt: 'Kestwin home page',
-    text: 'Practise interviews out loud with an AI interviewer, see the questions a company asks, and build a resume that passes ATS checks.',
-    points: ['AI voice mock interviews', 'Resume builder and ATS check', 'Interview prep plans by role'],
+    features: [
+      { icon: Microphone, title: 'AI mock interviews', text: 'Voice interviews in English and 11 Indian languages' },
+      { icon: Exam, title: 'Prep by company and role', text: 'Real questions with answers, in a clear plan' },
+      { icon: FileText, title: 'Resume builder', text: 'Templates, an ATS check and an honest AI writer' },
+      { icon: Target, title: 'Match to a job', text: 'See how a resume fits a job post and what to fix' },
+    ],
   },
   {
     name: 'Kestwin Hire',
     for: 'For companies and colleges',
+    lead: 'Run the first round with AI, any time of day.',
+    text: 'Every candidate or student gets the same fair voice interview, and you get a clear report on what to do next.',
     url: 'https://hire.kestwin.com',
     host: 'hire.kestwin.com',
     img: '/shots/hire.jpg',
-    alt: 'Kestwin Hire sign in page',
-    text: 'Run first round interviews with AI, any time of day. Every candidate or student gets the same fair interview and you get a clear report.',
-    points: ['Live AI voice interviews', 'Face, screen and app checks', 'A report after every interview'],
+    features: [
+      { icon: ChatsCircle, title: 'Live AI interviews', text: 'Candidates join when they are ready, no scheduling' },
+      { icon: ShieldCheck, title: 'Fair by design', text: 'Face, screen and app checks during the interview' },
+      { icon: ChartBar, title: 'Clear reports', text: 'Scores and notes after every interview' },
+      { icon: GraduationCap, title: 'Built for colleges', text: 'Practice for students and progress for staff' },
+    ],
+  },
+]
+
+const MORE = [
+  {
+    icon: Desktop,
+    title: 'Kestwin for Mac and Windows',
+    text: 'A desktop app for proctored interviews.',
+    href: 'https://kestwin.com/download',
+    cta: 'Download',
+  },
+  {
+    icon: AndroidLogo,
+    title: 'Kestwin for Android',
+    text: 'Practise on the go, from your phone.',
+    href: 'https://play.google.com/store/apps/details?id=com.navigator247.prep',
+    cta: 'Get it on Google Play',
+  },
+  {
+    icon: Buildings,
+    title: 'Kestwin for teams',
+    text: 'Talk to us about using Kestwin at your company or college.',
+    href: '#contact',
+    cta: 'Contact us',
   },
 ]
 
 function Products() {
   return (
     <section className="section" id="products">
-      <div className="wrap">
-        <div className="section__head reveal">
+      <div className="wrap wrap--wide">
+        <div className="section__head section__head--center reveal">
           <p className="eyebrow caption-3">Our products</p>
           <h2 className="heading-2">One platform, from first practice to final offer</h2>
+          <p className="body-3 muted section__sub">
+            Kestwin helps people prepare and get hired. Kestwin Hire helps companies and colleges interview them.
+          </p>
         </div>
-        <div className="products">
-          {PRODUCTS.map((p) => (
-            <article key={p.name} className="product reveal">
-              <a href={p.url} className="product__img" target="_blank" rel="noopener">
-                <img src={p.img} alt={p.alt} loading="lazy" />
-              </a>
-              <div className="product__body">
-                <p className="caption-3 product__for">{p.for}</p>
-                <h3 className="heading-5">{p.name}</h3>
+        <div className="panels">
+          {PRODUCTS.map((p, n) => (
+            <article key={p.name} className={`panel reveal ${n % 2 ? 'panel--flip' : ''}`}>
+              <div className="panel__copy">
+                <p className="caption-3 panel__for">{p.for}</p>
+                <h3 className="heading-4">{p.name}</h3>
+                <p className="title-2 panel__lead">{p.lead}</p>
                 <p className="body-6 muted">{p.text}</p>
-                <ul>
-                  {p.points.map((t) => (
-                    <li key={t} className="body-5">
-                      <CheckCircle size={18} weight="fill" /> {t}
+                <ul className="panel__features">
+                  {p.features.map(({ icon: Icon, title, text }) => (
+                    <li key={title}>
+                      <span className="panel__icon">
+                        <Icon size={20} />
+                      </span>
+                      <span>
+                        <span className="title-4 block">{title}</span>
+                        <span className="caption-2 muted block">{text}</span>
+                      </span>
                     </li>
                   ))}
                 </ul>
-                <a href={p.url} className="link body-5" target="_blank" rel="noopener">
-                  {p.host} <ArrowUpRight size={16} weight="bold" />
+                <a href={p.url} className="btn btn--primary panel__cta" target="_blank" rel="noopener">
+                  Visit {p.host} <ArrowUpRight size={18} weight="bold" />
                 </a>
+              </div>
+              <div className="panel__shot">
+                <Window url={p.host} img={p.img} alt={`${p.name} on ${p.host}`} />
               </div>
             </article>
           ))}
         </div>
-        <div className="apps reveal">
-          <div className="apps__icon">
-            <Desktop size={24} />
-          </div>
-          <div>
-            <h3 className="title-2">Kestwin apps</h3>
-            <p className="body-6 muted">
-              A desktop app for Mac and Windows for proctored interviews, and an Android app for practice on the go.
-            </p>
-          </div>
-        </div>
+        <ul className="more">
+          {MORE.map(({ icon: Icon, title, text, href, cta }) => (
+            <li key={title} className="reveal">
+              <a href={href} className="more__card" {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>
+                <span className="benefit__icon">
+                  <Icon size={24} />
+                </span>
+                <span className="title-2">{title}</span>
+                <span className="body-6 muted">{text}</span>
+                <span className="more__cta body-5">
+                  {cta} <ArrowRight size={16} weight="bold" />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
