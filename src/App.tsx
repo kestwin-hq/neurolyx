@@ -6,6 +6,7 @@ import {
   FileText,
   Target,
   CaretRight,
+  Check,
   List,
   LockSimple,
   X,
@@ -20,8 +21,6 @@ import {
   MapPin,
   Microphone,
   ShieldCheck,
-  Translate,
-  UserFocus,
 } from '@phosphor-icons/react'
 import { COMPANY, PEOPLE, mapsHref } from './company'
 import { useActiveSection, useReveals } from './hooks'
@@ -355,61 +354,117 @@ function Products() {
   )
 }
 
-const APPROACH = [
-  {
-    icon: Microphone,
-    title: 'Practice that feels real',
-    text: 'Our AI interviewer listens and replies by voice, so people practise the way they will be interviewed.',
-  },
-  {
-    icon: Translate,
-    title: 'Made for India',
-    text: 'Interviews in English and 11 Indian languages, with prices that students can afford.',
-  },
-  {
-    icon: UserFocus,
-    title: 'Honest AI',
-    text: 'Our resume tools never invent jobs, projects or numbers. They only improve what a person has really done.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Privacy first',
-    text: 'We follow India’s data protection law and ask before using analytics.',
-  },
+const WHO = [
+  { icon: GraduationCap, text: 'Students and freshers' },
+  { icon: Exam, text: 'People changing jobs' },
+  { icon: Buildings, text: 'Companies hiring' },
+  { icon: ChatsCircle, text: 'Colleges and institutes' },
 ]
 
 function Approach() {
   return (
     <section className="section section--tint" id="approach">
-      <div className="wrap">
-        <div className="section__head reveal">
-          <p className="eyebrow caption-3">How we work</p>
-          <h2 className="heading-2">Useful, honest and built for the people who use it</h2>
+      <div className="wrap wrap--wide">
+        <div className="approach__head reveal">
+          <div>
+            <p className="eyebrow caption-3">How we work</p>
+            <h2 className="heading-2">Useful, honest and built for the people who use it</h2>
+          </div>
+          <p className="body-3 muted">
+            Four rules guide every feature we ship, from the first practice question to the final hiring report.
+          </p>
         </div>
-        <ul className="benefits">
-          {APPROACH.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="benefit reveal">
-              <span className="benefit__icon">
-                <Icon size={24} />
-              </span>
-              <h3 className="title-2">{title}</h3>
-              <p className="body-6 muted">{text}</p>
-            </li>
-          ))}
-        </ul>
-        <div className="who reveal">
-          <span className="who__item body-5">
-            <GraduationCap size={20} /> Students and freshers
-          </span>
-          <span className="who__item body-5">
-            <Exam size={20} /> Working people changing jobs
-          </span>
-          <span className="who__item body-5">
-            <Buildings size={20} /> Companies hiring
-          </span>
-          <span className="who__item body-5">
-            <ChatsCircle size={20} /> Colleges and training institutes
-          </span>
+
+        <div className="bento">
+          <article className="tile tile--wide reveal">
+            <div className="tile__copy">
+              <span className="tile__n caption-3">01</span>
+              <h3 className="heading-6">Practice that feels real</h3>
+              <p className="body-6 muted">
+                Our AI interviewer listens and replies by voice, so people practise the way they will be interviewed.
+              </p>
+            </div>
+            <div className="voice" aria-hidden="true">
+              <div className="voice__msg">
+                <span className="voice__who caption-4">AI interviewer</span>
+                <span className="body-6">Tell me about a project you are proud of.</span>
+              </div>
+              <div className="voice__wave">
+                {Array.from({ length: 28 }, (_, n) => (
+                  <i key={n} style={{ ['--d' as string]: `${(n * 37) % 100}ms`, ['--h' as string]: `${30 + ((n * 53) % 70)}%` }} />
+                ))}
+              </div>
+              <div className="voice__msg voice__msg--me">
+                <span className="voice__who caption-4">You</span>
+                <span className="body-6">I built the checkout page for our college fest app…</span>
+              </div>
+            </div>
+          </article>
+
+          <article className="tile reveal">
+            <span className="tile__n caption-3">02</span>
+            <h3 className="heading-6">Made for India</h3>
+            <p className="body-6 muted">Interviews in English and 11 Indian languages, at prices students can afford.</p>
+            <ul className="langs" aria-label="Some of the languages">
+              {['English', 'हिन्दी', 'తెలుగు', 'தமிழ்', 'ಕನ್ನಡ'].map((l) => (
+                <li key={l} className="body-5">
+                  {l}
+                </li>
+              ))}
+              <li className="body-5 langs__more">+7 more</li>
+            </ul>
+          </article>
+
+          <article className="tile reveal">
+            <span className="tile__n caption-3">03</span>
+            <h3 className="heading-6">Honest AI</h3>
+            <p className="body-6 muted">Our resume tools never invent jobs, projects or numbers.</p>
+            <div className="honest" aria-hidden="true">
+              <div className="honest__row honest__row--no">
+                <X size={16} weight="bold" />
+                <span className="caption-2">
+                  <s>Grew sales by 40%</s>
+                </span>
+                <span className="caption-4">Never added</span>
+              </div>
+              <div className="honest__row">
+                <Check size={16} weight="bold" />
+                <span className="caption-2">Built the checkout page in React</span>
+                <span className="caption-4">Made clearer</span>
+              </div>
+            </div>
+          </article>
+
+          <article className="tile reveal">
+            <span className="tile__n caption-3">04</span>
+            <h3 className="heading-6">Privacy first</h3>
+            <p className="body-6 muted">We follow India’s data protection law and ask before using analytics.</p>
+            <div className="consent" aria-hidden="true">
+              <div className="consent__row">
+                <span className="caption-2">Keep me signed in</span>
+                <span className="switch is-on" />
+              </div>
+              <div className="consent__row">
+                <span className="caption-2">Analytics</span>
+                <span className="caption-4 consent__ask">Only with your OK</span>
+                <span className="switch" />
+              </div>
+            </div>
+          </article>
+
+          <article className="tile tile--who reveal">
+            <h3 className="heading-6">Who we build for</h3>
+            <ul className="who-list">
+              {WHO.map(({ icon: Icon, text }) => (
+                <li key={text} className="body-5">
+                  <span className="panel__icon">
+                    <Icon size={18} />
+                  </span>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </article>
         </div>
       </div>
     </section>
