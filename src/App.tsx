@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react'
 import {
-  AndroidLogo,
+  Sparkle,
+  Translate,
+  UserFocus,
   ArrowRight,
-  ChartBar,
-  FileText,
   Target,
   CaretRight,
-  Check,
   List,
   LockSimple,
   X,
   ArrowUpRight,
   Buildings,
-  ChatsCircle,
   Desktop,
   EnvelopeSimple,
-  Exam,
-  GraduationCap,
   IdentificationCard,
   MapPin,
-  Microphone,
   ShieldCheck,
 } from '@phosphor-icons/react'
 import { COMPANY, PEOPLE, mapsHref } from './company'
@@ -212,260 +207,122 @@ function Hero() {
   )
 }
 
-// a product screen in the same browser window as the hero
-function Window({ url, img, alt }: { url: string; img: string; alt: string }) {
-  return (
-    <div className="window">
-      <div className="window__bar" aria-hidden="true">
-        <span className="window__dots">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="window__url">
-          <LockSimple size={12} weight="bold" />
-          <span>{url}</span>
-        </span>
-      </div>
-      <div className="window__screen">
-        <img src={img} alt={alt} className="window__img is-on" loading="lazy" />
-      </div>
-    </div>
-  )
-}
-
+// every product the company makes; Kestwin is the first, with room for more
 const PRODUCTS = [
   {
     name: 'Kestwin',
-    for: 'For job seekers',
-    lead: 'Get ready for your next interview, tonight.',
-    text: 'Pick the company and the role, see the questions they ask, then practise out loud with an AI interviewer that listens and replies.',
-    url: 'https://kestwin.com',
-    host: 'kestwin.com',
+    status: 'Live',
+    text: 'Interview practice with AI, prep plans and resume tools for job seekers.',
+    href: 'https://kestwin.com',
+    link: 'kestwin.com',
     img: '/shots/kestwin.jpg',
-    features: [
-      { icon: Microphone, title: 'AI mock interviews', text: 'Voice interviews in English and 11 Indian languages' },
-      { icon: Exam, title: 'Prep by company and role', text: 'Real questions with answers, in a clear plan' },
-      { icon: FileText, title: 'Resume builder', text: 'Templates, an ATS check and an honest AI writer' },
-      { icon: Target, title: 'Match to a job', text: 'See how a resume fits a job post and what to fix' },
-    ],
   },
   {
     name: 'Kestwin Hire',
-    for: 'For companies and colleges',
-    lead: 'Run the first round with AI, any time of day.',
-    text: 'Every candidate or student gets the same fair voice interview, and you get a clear report on what to do next.',
-    url: 'https://hire.kestwin.com',
-    host: 'hire.kestwin.com',
+    status: 'Live',
+    text: 'AI first round interviews and clear reports for companies and colleges.',
+    href: 'https://hire.kestwin.com',
+    link: 'hire.kestwin.com',
     img: '/shots/hire.jpg',
-    features: [
-      { icon: ChatsCircle, title: 'Live AI interviews', text: 'Candidates join when they are ready, no scheduling' },
-      { icon: ShieldCheck, title: 'Fair by design', text: 'Face, screen and app checks during the interview' },
-      { icon: ChartBar, title: 'Clear reports', text: 'Scores and notes after every interview' },
-      { icon: GraduationCap, title: 'Built for colleges', text: 'Practice for students and progress for staff' },
-    ],
   },
-]
-
-const MORE = [
   {
-    icon: Desktop,
-    title: 'Kestwin for Mac and Windows',
-    text: 'A desktop app for proctored interviews.',
+    name: 'Kestwin apps',
+    status: 'Live',
+    text: 'A desktop app for Mac and Windows, and an Android app.',
     href: 'https://kestwin.com/download',
-    cta: 'Download',
+    link: 'Download',
+    icon: Desktop,
   },
   {
-    icon: AndroidLogo,
-    title: 'Kestwin for Android',
-    text: 'Practise on the go, from your phone.',
-    href: 'https://play.google.com/store/apps/details?id=com.navigator247.prep',
-    cta: 'Get it on Google Play',
-  },
-  {
-    icon: Buildings,
-    title: 'Kestwin for teams',
-    text: 'Talk to us about using Kestwin at your company or college.',
+    name: 'More on the way',
+    status: 'Building',
+    text: 'New products for learning and work. Write to us to hear about them first.',
     href: '#contact',
-    cta: 'Contact us',
+    link: 'Contact us',
+    icon: Sparkle,
   },
 ]
 
 function Products() {
   return (
     <section className="section" id="products">
-      <div className="wrap wrap--wide">
-        <div className="section__head section__head--center reveal">
+      <div className="wrap">
+        <div className="section__head reveal">
           <p className="eyebrow caption-3">Our products</p>
-          <h2 className="heading-2">One platform, from first practice to final offer</h2>
-          <p className="body-3 muted section__sub">
-            Kestwin helps people prepare and get hired. Kestwin Hire helps companies and colleges interview them.
-          </p>
+          <h2 className="heading-2">What we build</h2>
         </div>
-        <div className="panels">
-          {PRODUCTS.map((p, n) => (
-            <article key={p.name} className={`panel reveal ${n % 2 ? 'panel--flip' : ''}`}>
-              <div className="panel__copy">
-                <p className="caption-3 panel__for">{p.for}</p>
-                <h3 className="heading-4">{p.name}</h3>
-                <p className="title-2 panel__lead">{p.lead}</p>
-                <p className="body-6 muted">{p.text}</p>
-                <ul className="panel__features">
-                  {p.features.map(({ icon: Icon, title, text }) => (
-                    <li key={title}>
-                      <span className="panel__icon">
-                        <Icon size={20} />
-                      </span>
-                      <span>
-                        <span className="title-4 block">{title}</span>
-                        <span className="caption-2 muted block">{text}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <a href={p.url} className="btn btn--primary panel__cta" target="_blank" rel="noopener">
-                  Visit {p.host} <ArrowUpRight size={18} weight="bold" />
+        <ul className="products">
+          {PRODUCTS.map((p) => {
+            const Icon = p.icon
+            const external = p.href.startsWith('http')
+            return (
+              <li key={p.name} className="reveal">
+                <a href={p.href} className="product" {...(external ? { target: '_blank', rel: 'noopener' } : {})}>
+                  <span className="product__media">
+                    {p.img ? <img src={p.img} alt="" loading="lazy" /> : Icon && <Icon size={40} />}
+                  </span>
+                  <span className="product__body">
+                    <span className="product__top">
+                      <span className="title-2">{p.name}</span>
+                      <span className={`product__status caption-4 ${p.status === 'Live' ? 'is-live' : ''}`}>{p.status}</span>
+                    </span>
+                    <span className="body-6 muted">{p.text}</span>
+                    <span className="product__link body-5">
+                      {p.link} {external ? <ArrowUpRight size={16} weight="bold" /> : <ArrowRight size={16} weight="bold" />}
+                    </span>
+                  </span>
                 </a>
-              </div>
-              <div className="panel__shot">
-                <Window url={p.host} img={p.img} alt={`${p.name} on ${p.host}`} />
-              </div>
-            </article>
-          ))}
-        </div>
-        <ul className="more">
-          {MORE.map(({ icon: Icon, title, text, href, cta }) => (
-            <li key={title} className="reveal">
-              <a href={href} className="more__card" {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>
-                <span className="benefit__icon">
-                  <Icon size={24} />
-                </span>
-                <span className="title-2">{title}</span>
-                <span className="body-6 muted">{text}</span>
-                <span className="more__cta body-5">
-                  {cta} <ArrowRight size={16} weight="bold" />
-                </span>
-              </a>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ul>
       </div>
     </section>
   )
 }
 
-const WHO = [
-  { icon: GraduationCap, text: 'Students and freshers' },
-  { icon: Exam, text: 'People changing jobs' },
-  { icon: Buildings, text: 'Companies hiring' },
-  { icon: ChatsCircle, text: 'Colleges and institutes' },
+const APPROACH = [
+  {
+    icon: Target,
+    title: 'Real problems first',
+    text: 'We start from problems people face every day, like getting ready for an interview or hiring fairly.',
+  },
+  {
+    icon: Translate,
+    title: 'Made for India',
+    text: 'Products that work in Indian languages, at prices students and small teams can afford.',
+  },
+  {
+    icon: UserFocus,
+    title: 'Honest AI',
+    text: 'Our AI helps people do their best work. It never makes up facts about them.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Privacy first',
+    text: 'We follow India’s data protection law and ask before using analytics.',
+  },
 ]
 
 function Approach() {
   return (
     <section className="section section--tint" id="approach">
-      <div className="wrap wrap--wide">
-        <div className="approach__head reveal">
-          <div>
-            <p className="eyebrow caption-3">How we work</p>
-            <h2 className="heading-2">Useful, honest and built for the people who use it</h2>
-          </div>
-          <p className="body-3 muted">
-            Four rules guide every feature we ship, from the first practice question to the final hiring report.
-          </p>
+      <div className="wrap">
+        <div className="section__head reveal">
+          <p className="eyebrow caption-3">How we work</p>
+          <h2 className="heading-2">Simple, honest and useful</h2>
         </div>
-
-        <div className="bento">
-          <article className="tile tile--wide reveal">
-            <div className="tile__copy">
-              <span className="tile__n caption-3">01</span>
-              <h3 className="heading-6">Practice that feels real</h3>
-              <p className="body-6 muted">
-                Our AI interviewer listens and replies by voice, so people practise the way they will be interviewed.
-              </p>
-            </div>
-            <div className="voice" aria-hidden="true">
-              <div className="voice__msg">
-                <span className="voice__who caption-4">AI interviewer</span>
-                <span className="body-6">Tell me about a project you are proud of.</span>
-              </div>
-              <div className="voice__wave">
-                {Array.from({ length: 28 }, (_, n) => (
-                  <i key={n} style={{ ['--d' as string]: `${(n * 37) % 100}ms`, ['--h' as string]: `${30 + ((n * 53) % 70)}%` }} />
-                ))}
-              </div>
-              <div className="voice__msg voice__msg--me">
-                <span className="voice__who caption-4">You</span>
-                <span className="body-6">I built the checkout page for our college fest app…</span>
-              </div>
-            </div>
-          </article>
-
-          <article className="tile reveal">
-            <span className="tile__n caption-3">02</span>
-            <h3 className="heading-6">Made for India</h3>
-            <p className="body-6 muted">Interviews in English and 11 Indian languages, at prices students can afford.</p>
-            <ul className="langs" aria-label="Some of the languages">
-              {['English', 'हिन्दी', 'తెలుగు', 'தமிழ்', 'ಕನ್ನಡ'].map((l) => (
-                <li key={l} className="body-5">
-                  {l}
-                </li>
-              ))}
-              <li className="body-5 langs__more">+7 more</li>
-            </ul>
-          </article>
-
-          <article className="tile reveal">
-            <span className="tile__n caption-3">03</span>
-            <h3 className="heading-6">Honest AI</h3>
-            <p className="body-6 muted">Our resume tools never invent jobs, projects or numbers.</p>
-            <div className="honest" aria-hidden="true">
-              <div className="honest__row honest__row--no">
-                <X size={16} weight="bold" />
-                <span className="caption-2">
-                  <s>Grew sales by 40%</s>
-                </span>
-                <span className="caption-4">Never added</span>
-              </div>
-              <div className="honest__row">
-                <Check size={16} weight="bold" />
-                <span className="caption-2">Built the checkout page in React</span>
-                <span className="caption-4">Made clearer</span>
-              </div>
-            </div>
-          </article>
-
-          <article className="tile reveal">
-            <span className="tile__n caption-3">04</span>
-            <h3 className="heading-6">Privacy first</h3>
-            <p className="body-6 muted">We follow India’s data protection law and ask before using analytics.</p>
-            <div className="consent" aria-hidden="true">
-              <div className="consent__row">
-                <span className="caption-2">Keep me signed in</span>
-                <span className="switch is-on" />
-              </div>
-              <div className="consent__row">
-                <span className="caption-2">Analytics</span>
-                <span className="caption-4 consent__ask">Only with your OK</span>
-                <span className="switch" />
-              </div>
-            </div>
-          </article>
-
-          <article className="tile tile--who reveal">
-            <h3 className="heading-6">Who we build for</h3>
-            <ul className="who-list">
-              {WHO.map(({ icon: Icon, text }) => (
-                <li key={text} className="body-5">
-                  <span className="panel__icon">
-                    <Icon size={18} />
-                  </span>
-                  {text}
-                </li>
-              ))}
-            </ul>
-          </article>
-        </div>
+        <ul className="benefits">
+          {APPROACH.map(({ icon: Icon, title, text }) => (
+            <li key={title} className="benefit reveal">
+              <span className="benefit__icon">
+                <Icon size={24} />
+              </span>
+              <h3 className="title-2">{title}</h3>
+              <p className="body-6 muted">{text}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
@@ -479,7 +336,7 @@ function Company() {
     ['Registered office', COMPANY.address.join(', ')],
     ['Email', <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>],
     ['Website', COMPANY.website],
-    ['Brand', 'Kestwin (kestwin.com)'],
+    ['Products', 'Kestwin, Kestwin Hire'],
   ]
   return (
     <section className="section" id="company">
@@ -488,8 +345,8 @@ function Company() {
           <p className="eyebrow caption-3">Company</p>
           <h2 className="heading-2">About {COMPANY.shortName}</h2>
           <p className="body-3 muted company__text">
-            {COMPANY.legalName} is a software company based in Telangana, India. We design, build and run Kestwin, our
-            interview and hiring platform, end to end: the product, the AI and the servers it runs on.
+            {COMPANY.legalName} is a software company based in Telangana, India. We design, build and run our own
+            products, end to end. Kestwin, our interview and hiring platform, is the first of them.
           </p>
           <h3 className="title-2 people__title">Leadership</h3>
           <ul className="people">
