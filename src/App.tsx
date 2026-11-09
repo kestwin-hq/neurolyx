@@ -263,7 +263,7 @@ function Products() {
                   </span>
                   <span className="product__body">
                     <span className="product__top">
-                      <span className="title-2">{p.name}</span>
+                      <span className="card-title">{p.name}</span>
                       <span className={`product__status caption-4 ${p.status === 'Live' ? 'is-live' : ''}`}>{p.status}</span>
                     </span>
                     <span className="body-6 muted">{p.text}</span>
@@ -313,12 +313,15 @@ function Approach() {
           <h2 className="heading-2">Simple, honest and useful</h2>
         </div>
         <ul className="benefits">
-          {APPROACH.map(({ icon: Icon, title, text }) => (
+          {APPROACH.map(({ icon: Icon, title, text }, n) => (
             <li key={title} className="benefit reveal">
-              <span className="benefit__icon">
-                <Icon size={24} />
+              <span className="benefit__top">
+                <span className="benefit__icon">
+                  <Icon size={24} weight="duotone" />
+                </span>
+                <span className="benefit__n caption-3 tabular">0{n + 1}</span>
               </span>
-              <h3 className="title-2">{title}</h3>
+              <h3 className="card-title">{title}</h3>
               <p className="body-6 muted">{text}</p>
             </li>
           ))}
