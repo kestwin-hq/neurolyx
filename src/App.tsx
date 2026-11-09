@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import {
   ArrowRight,
+  CaretRight,
+  List,
+  X,
   ArrowUpRight,
   Buildings,
   ChatsCircle,
@@ -45,116 +48,164 @@ function Logo() {
 }
 
 function Nav() {
+  const [solid, setSolid] = useState(false)
   const [open, setOpen] = useState(false)
   const active = useActiveSection(IDS)
 
+  // the header gains a hairline once the page moves
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [open])
+    const onScroll = () => setSolid(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <>
-      <header className="nav">
+    <header className={`top ${solid ? 'is-solid' : ''} ${open ? 'is-open' : ''}`}>
+      <div className="top__inner">
         <a href="#top" aria-label="Neurolyx Technologies home">
           <Logo />
         </a>
-        <nav aria-label="Primary" className="nav__links">
+        <nav aria-label="Primary" className="top__links">
           {LINKS.map((l) => (
-            <a key={l.id} href={`#${l.id}`} className="title-4" aria-current={active === l.id ? 'true' : undefined}>
+            <a key={l.id} href={`#${l.id}`} aria-current={active === l.id ? 'true' : undefined}>
               {l.label}
             </a>
           ))}
         </nav>
-        <a href="#contact" className="btn btn--primary button-sm nav__cta">
-          Contact us
-        </a>
-        <button
-          type="button"
-          className={`nav__toggle ${open ? 'is-open' : ''}`}
-          aria-expanded={open}
-          aria-controls="menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span />
-          <span />
-        </button>
-      </header>
-      <div id="menu" className={`menu ${open ? 'is-open' : ''}`} inert={!open}>
-        <nav aria-label="Mobile">
-          {LINKS.map((l, i) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              className="heading-4"
-              style={{ transitionDelay: `${i * 60}ms` }}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-    </>
-  )
-}
-
-function Hero() {
-  return (
-    <section className="hero" id="top">
-      <div className="wrap hero__copy">
-        <span className="badge caption-4">Software company · Telangana, India</span>
-        <h1 className="heading-1 hero__title">We build software that helps people get hired</h1>
-        <p className="body-3 hero__sub">
-          {COMPANY.legalName} makes Kestwin: AI mock interviews, resume tools and live AI interviews for job seekers,
-          companies and colleges.
-        </p>
-        <div className="hero__action">
-          <a href="#products" className="btn btn--primary button-md">
-            See our products <ArrowRight size={18} weight="bold" />
+        <div className="top__actions">
+          <a href={telHref(COMPANY.phone)} className="top__call" aria-label={`Call ${COMPANY.phone}`}>
+            <Phone size={16} weight="bold" />
+            <span className="tabular">{COMPANY.phone}</span>
           </a>
-          <span className="hero__proof body-5">
-            <CheckCircle size={18} weight="fill" /> Kestwin is used by 16,000+ job seekers
-          </span>
+          <a href="#contact" className="btn btn--primary btn--sm">
+            Contact us
+          </a>
+          <button
+            type="button"
+            className="top__toggle"
+            aria-expanded={open}
+            aria-controls="top-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X size={22} /> : <List size={22} />}
+          </button>
         </div>
       </div>
-      <div className="wrap wrap--wide">
-        <figure className="shot reveal">
-          <div className="shot__bar" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <span className="caption-5">kestwin.com</span>
-          </div>
-          <img src="/shots/kestwin.jpg" alt="The Kestwin home page, with an AI voice interview in progress" />
-        </figure>
-      </div>
-    </section>
+      <nav id="top-menu" aria-label="Mobile" className="top__menu" hidden={!open}>
+        {LINKS.map((l) => (
+          <a key={l.id} href={`#${l.id}`} onClick={() => setOpen(false)}>
+            {l.label} <CaretRight size={18} />
+          </a>
+        ))}
+        <a href={telHref(COMPANY.phone)} className="top__menu-call">
+          <Phone size={18} weight="bold" /> <span className="tabular">{COMPANY.phone}</span>
+        </a>
+      </nav>
+    </header>
   )
 }
 
-const NUMBERS = [
-  { n: '16,000+', l: 'Job seekers on Kestwin' },
-  { n: '13,000+', l: 'Interview questions in our bank' },
-  { n: '90+', l: 'Skills covered, from Java to SAP' },
-  { n: '12', l: 'Languages for voice interviews' },
+// the hero picture cycles through real product screens, like the chapters of the EdPlus v2 film
+const SLIDES = [
+  { tab: 'Practise', img: '/shots/kestwin.jpg', title: 'AI mock interviews', text: 'Practise out loud with an AI interviewer on kestwin.com.' },
+  { tab: 'Resume', img: '/shots/resume.jpg', title: 'Resume builder', text: 'Templates and an ATS check, so a resume gets read.' },
+  { tab: 'Hire', img: '/shots/hire.jpg', title: 'Kestwin Hire', text: 'Live AI interviews for companies and colleges.' },
+]
+const SLIDE_MS = 6000
+
+const STATS = [
+  { n: '16,000+', l: 'Job seekers' },
+  { n: '13,000+', l: 'Interview questions' },
+  { n: '90+', l: 'Skills covered' },
+  { n: '12', l: 'Languages' },
 ]
 
-function Numbers() {
+function Hero() {
+  const [i, setI] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = window.setTimeout(() => setI((n) => (n + 1) % SLIDES.length), SLIDE_MS)
+    return () => window.clearTimeout(t)
+  }, [i, paused])
+
+  const s = SLIDES[i]
   return (
-    <section className="numbers" aria-label="Kestwin in numbers">
-      <div className="wrap">
-        <dl className="numbers__grid reveal">
-          {NUMBERS.map((x) => (
-            <div key={x.l}>
-              <dt className="body-6">{x.l}</dt>
-              <dd className="heading-4 tabular">{x.n}</dd>
+    <section className="hero" id="top">
+      <div className="hero__glow" aria-hidden="true" />
+      <div className="hero__inner">
+        <div className="hero__copy">
+          <span className="hero__eyebrow">
+            <span className="hero__dot" aria-hidden="true" />
+            Software company · Telangana, India
+          </span>
+          <h1>
+            Software that helps
+            <em>people get hired.</em>
+          </h1>
+          <p className="hero__sub">
+            {COMPANY.legalName} makes Kestwin: AI mock interviews, resume tools and live AI interviews for job seekers,
+            companies and colleges.
+          </p>
+          <div className="hero__ctas">
+            <a href="#products" className="btn btn--primary">
+              See our products <ArrowRight size={18} weight="bold" />
+            </a>
+            <a href={telHref(COMPANY.phone)} className="btn btn--ghost">
+              <Phone size={18} weight="bold" /> <span className="tabular">{COMPANY.phone}</span>
+            </a>
+          </div>
+          <p className="hero__trust">
+            <ShieldCheck size={18} weight="bold" /> Private limited company, registered in India
+          </p>
+          <dl className="hero__stats">
+            {STATS.map((x) => (
+              <div key={x.l}>
+                <dt>{x.l}</dt>
+                <dd className="tabular">{x.n}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div className="hero__view" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+          <div className="view">
+            <div className="view__frame">
+              {SLIDES.map((x, n) => (
+                <img
+                  key={x.img}
+                  src={x.img}
+                  alt={n === i ? `${x.title} on Kestwin` : ''}
+                  className={`view__img ${n === i ? 'is-on' : ''}`}
+                  loading={n === 0 ? 'eager' : 'lazy'}
+                />
+              ))}
             </div>
-          ))}
-        </dl>
+            <div className="view__caption" aria-live="polite">
+              <span className="view__step tabular">
+                0{i + 1} / 0{SLIDES.length}
+              </span>
+              <span className="view__text" key={i}>
+                <strong>{s.title}</strong>
+                <span>{s.text}</span>
+              </span>
+            </div>
+          </div>
+          <ul className="view-rail" style={{ ['--slide' as string]: `${SLIDE_MS}ms` }}>
+            {SLIDES.map((x, n) => (
+              <li key={x.tab}>
+                <button type="button" className={n === i ? 'is-on' : ''} aria-pressed={n === i} onClick={() => setI(n)}>
+                  <span className="view-rail__bar">
+                    <span key={`${i}-${paused}`} style={paused ? { animation: 'none', transform: 'scaleX(1)' } : undefined} />
+                  </span>
+                  {x.tab}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   )
@@ -457,7 +508,6 @@ export default function App() {
       <Nav />
       <main id="main">
         <Hero />
-        <Numbers />
         <Products />
         <Approach />
         <Company />
