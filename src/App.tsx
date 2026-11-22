@@ -35,9 +35,10 @@ const YEAR = new Date().getFullYear()
 function Logo() {
   return (
     <span className="logo">
-      <svg viewBox="0 0 64 64" aria-hidden="true" className="logo__mark">
-        <rect width="64" height="64" rx="16" />
-        <path d="M19 46V18h6l14 18V18h6v28h-6L25 28v18z" />
+      <svg viewBox="0 0 100 100" aria-hidden="true" className="logo__mark">
+        <rect x="4" y="4" width="92" height="92" rx="24" className="logo__tile" />
+        <path d="M24 74V26L76 74" className="logo__n" />
+        <line x1="76" y1="26" x2="50" y2="74" className="logo__x" />
       </svg>
       <span className="logo__word">
         <span className="title-3">Neurolyx</span>
