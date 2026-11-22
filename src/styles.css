@@ -467,11 +467,21 @@ blockquote {
   width: 32px;
   height: 32px;
 }
-.logo__mark rect {
-  fill: var(--ink);
+.logo__mark .logo__tile {
+  fill: #0f3d38;
 }
-.logo__mark path {
-  fill: #fff;
+.logo__mark .logo__n,
+.logo__mark .logo__x {
+  fill: none;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.logo__mark .logo__n {
+  stroke: #f3f7f6;
+}
+.logo__mark .logo__x {
+  stroke: #f59e0b;
 }
 .logo__word {
   display: grid;
