@@ -1,0 +1,43 @@
+name: Deploy to Firebase Hosting
+
+# Deploys the company site (neurolyxtechnologies.com) on every push to main.
+# Google Cloud login is keyless (Workload Identity Federation), limited to the
+# kestwin-hq GitHub org; no service account key is stored in GitHub.
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: firebase-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/70255328091/locations/global/workloadIdentityPools/github/providers/kestwin-hq
+          service_account: firebase-deployer@resumecook-484507.iam.gserviceaccount.com
+
+      - name: Deploy hosting
+        run: npx -y firebase-tools@15 deploy --only hosting --project resumecook-484507 --non-interactive
